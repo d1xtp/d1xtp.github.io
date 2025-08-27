@@ -13,8 +13,9 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url('images/banner.png') no-repeat center center fixed;
+            background: url('images/banner.png') no-repeat center center;
             background-size: cover;
+            background-attachment: fixed;
         }
         .bio-container {
             background-color: rgba(0, 0, 0, 0.212);
@@ -45,12 +46,12 @@
         }
         .game-list {
             margin: 0;
-            padding-left: 20px; /* Отступ слева для списка */
-            padding-right: 10px; /* Отступ справа для выравнивания */
-            list-style-type: disc; /* Тип маркера списка */
+            padding-left: 20px;
+            padding-right: 10px;
+            list-style-type: disc;
         }
         .game-list li {
-            margin-bottom: 5px; /* Отступ между элементами списка */
+            margin-bottom: 5px;
         }
         .buttons {
             display: flex;
@@ -69,7 +70,7 @@
             justify-content: center;
             width: 35px;
             height: 35px;
-            font-size: 100; /* Скрываем текст */
+            font-size: 100;
         }
         .button:hover {
             background-color: rgba(51, 51, 51, 0.411);
@@ -92,6 +93,35 @@
         .button.telegram::before { background-image: url('images/telegram.svg'); }
         .button.steam::before { background-image: url('images/steam.svg'); }
         .button.github::before { background-image: url('images/github.svg'); }
+
+        /* Медиа-запрос для мобильных устройств */
+        @media screen and (max-width: 600px) {
+            body {
+                background-attachment: scroll;
+                background-size: contain;
+                background-position: top center;
+                padding: 10px;
+            }
+            .bio-container {
+                max-width: 100%;
+                padding: 15px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            .bio-text {
+                text-align: center;
+            }
+            .buttons {
+                flex-wrap: wrap;
+            }
+            .button {
+                margin: 5px;
+            }
+        }
     </style>
 </head>
 <body>
