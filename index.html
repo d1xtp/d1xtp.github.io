@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="ru">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BIO | D1XTP</title>
@@ -43,13 +43,22 @@
         p {
             margin: 10px 0;
         }
+        .game-list {
+            margin: 0;
+            padding-left: 20px; /* Отступ слева для списка */
+            padding-right: 10px; /* Отступ справа для выравнивания */
+            list-style-type: disc; /* Тип маркера списка */
+        }
+        .game-list li {
+            margin-bottom: 5px; /* Отступ между элементами списка */
+        }
         .buttons {
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
         }
         .button {
-            background-color: #7289da;
+            background-color: rgba(51, 51, 51, 0.411);
             color: white;
             padding: 10px 15px;
             text-decoration: none;
@@ -63,7 +72,7 @@
             font-size: 100; /* Скрываем текст */
         }
         .button:hover {
-            background-color: #5a6eb8;
+            background-color: rgba(51, 51, 51, 0.411);
         }
         .telegram { background-color: rgba(51, 51, 51, 0.411); }
         .telegram:hover { background-color: rgba(51, 51, 51, 0.411); }
@@ -95,8 +104,10 @@
             <p>Name: ???</p>
             <p>Age: 1?</p>
             <p>Favorite games:</p>
-            <p>Minecraft — nickname D1XTP</p>
-            <p>DDraceNetwork — nickname катарак</p>
+            <ul class="game-list">
+                <li>Minecraft — nickname D1XTP</li>
+                <li>DDraceNetwork — nickname катарак</li>
+            </ul>
             <p>TimeZone: MSK +3 UTC</p>
             <div class="buttons">
                 <a href="https://discord.com/users/767309831748452373" class="button discord"></a>
@@ -106,5 +117,5 @@
             </div>
         </div>
     </div>
-
-</body></html>
+</body>
+</html>
