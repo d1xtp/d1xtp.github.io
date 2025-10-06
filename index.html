@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᴅɪxᴛᴘ | BIO</title>
+    <link rel="icon" type="image/jpeg" href="images/avatar.jpg">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            background: url('images/banner.png') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .bio-container {
+            background-color: #ffdead71;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20;
+        }
+        .visits {
+            background-color: #ffdead71;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            size: 100px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: url('images/avatar.jpg') no-repeat center;
+            background-size: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .bio-text {
+            flex-grow: 1;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-left: -125px; /* Shift left slightly for better centering */
+        }
+        p {
+            margin: 10px 0;
+        }
+        .game-list {
+            margin: 0;
+            padding-left: 20px;
+            padding-right: 10px;
+            list-style-type: disc;
+        }
+        .game-list li {
+            margin-bottom: 5px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: rgba(51, 51, 51, 0.411);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            font-size: 100;
+        }
+        .button:hover {
+            background-color: rgba(100, 100, 100, 0.6);
+        }
+        .telegram { background-color: rgba(51, 51, 51, 0.411); }
+        .telegram:hover { background-color: rgba(0, 136, 204, 0.6); }
+        .steam { background-color: rgba(51, 51, 51, 0.411); }
+        .steam:hover { background-color: rgba(0, 102, 153, 0.6); }
+        .github { background-color: rgba(51, 51, 51, 0.411); }
+        .github:hover { background-color: rgba(150, 150, 150, 0.6); }
+        .discord:hover { background-color: rgba(114, 137, 218, 0.6); }
+        .button::before {
+            content: '';
+            width: 27px;
+            height: 27px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+        }
+        .button.discord::before { background-image: url('images/discord.svg'); }
+        .button.telegram::before { background-image: url('images/telegram.svg'); }
+        .button.steam::before { background-image: url('images/steam.svg'); }
+        .button.github::before { background-image: url('images/github.svg'); }
+
+        /* Медиа-запрос для мобильных устройств */
+        @media screen and (max-width: 600px) {
+            body {
+                background-image: url('images/banner-mobile.png'); /* Новое изображение для мобильных */
+                background-size: 100% 100%; /* Растягиваем на всю высоту и ширину */
+                background-attachment: scroll;
+                padding: 10px;
+            }
+            .bio-container {
+                max-width: 100%;
+                padding: 15px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            .bio-text {
+                text-align: center;
+            }
+            .buttons {
+                flex-wrap: wrap;
+            }
+            .button {
+                margin: 5px;
+            }
+            .button:active {
+                background-color: rgba(150, 150, 150, 0.7);
+            }
+            .telegram:active { background-color: rgba(0, 136, 204, 0.7); }
+            .steam:active { background-color: rgba(0, 102, 153, 0.7); }
+            .github:active { background-color: rgb(200, 200, 200); }
+            .discord:active { background-color: rgba(114, 137, 218, 0.7); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bio-container">
+        <div class="avatar"></div>
+        <div class="bio-text">
+            <h1>ᴅɪxᴛᴘ | BIO</h1>
+            <p>Nickname: D1XTP</p>
+            <p>Gender: Male | He/His</p>
+            <p>Name: ???</p>
+            <p>Age: 1?</p>
+            <p>Favorite games:</p>
+            <ul class="game-list">
+                <li>Minecraft — nickname D1XTP</li>
+                <li>DDraceNetwork — nickname катарак</li>
+            </ul>
+            <p>TimeZone: MSK +3 UTC</p>
+            <div class="buttons">
+                <a href="https://discord.com/users/767309831748452373" class="button discord"></a>
+                <a href="https://t.me/d1xtp" class="button telegram"></a>
+                <a href="https://steamcommunity.com/id/D1XTP" class="button steam"></a>
+                <a href="https://github.com/d1xtp" class="button github"></a>
+            </div>
+        </div>
+    </div>
+    </div class="visits">
+        <p>Вот сколько раз посещали сайт</p>
+        <img src="https://count.getloli.com/get/@:d1xtp.github.io?theme=booru-lewd" alt=":d1xtp.github.io" />
+    </div>
+</body>
+</html>

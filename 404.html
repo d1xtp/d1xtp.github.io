@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset='utf-8'>
+    <title>Демотиватор</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            flex-direction: column;
+        }
+
+        .error-title {
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
+            letter-spacing: 3px;
+        }
+
+        .demotivator {
+            background-color: #000;
+            border: 2px solid #fff;
+            padding: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .image-container {
+            border: 1px solid #fff;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #000;
+        }
+
+        .demotivator-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #666;
+        }
+
+        .title {
+            color: #fff;
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
+        }
+
+        .subtitle {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.4;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .line {
+            color: #fff;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .redirect-info {
+            color: #fff;
+            font-size: 16px;
+            margin: 15px 0;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #ff0066;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            margin-top: 10px;
+        }
+
+        .home-btn:hover {
+            background: transparent;
+            border-color: #ff0066;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,0,102,0.3);
+        }
+
+        @media (max-width: 600px) {
+            .error-title { font-size: 36px; }
+            .title { font-size: 28px; }
+            .subtitle { font-size: 20px; }
+            .description { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-title">404 NOT FOUND</div>
+    
+    <div class="demotivator">
+        <div class="image-container">
+            <!-- ЗАМЕНИТЕ src НА ПУТЬ К ВАШЕМУ ИЗОБРАЖЕНИЮ -->
+            <img src="images/screenshoot.png" alt="Демотиватор" class="demotivator-image">
+        </div>
+        
+        <div class="title">ХУДОЖЕСТВЕННЫЙ ФИЛЬМ</div>        
+        <div class="subtitle">"СПИЗДИЛИ"</div>
+
+        <div class="redirect-info" id="countdown">
+            <span id="timer">10</span> секунд...
+        </div>
+        
+        <a href="https://d1xtp.github.io/" class="home-btn" id="homeBtn">Вернуться на главную сейчас</a>
+    </div>
+
+    <script>
+        let seconds = 10;
+        const timerElement = document.getElementById('timer');
+        const countdownElement = document.getElementById('countdown');
+        const homeBtn = document.getElementById('homeBtn');
+
+        const countdown = setInterval(() => {
+            seconds--;
+            timerElement.textContent = seconds;
+            
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                window.location.href = 'https://d1xtp.github.io/'; // Замените на ваш URL
+            }
+        }, 1000);
+
+        // Если пользователь нажал кнопку - отменяем авторедирект
+        homeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearInterval(countdown);
+            countdownElement.style.display = 'none';
+            window.location.href = homeBtn.href;
+        });
+    </script>
+</body>
+</html>
