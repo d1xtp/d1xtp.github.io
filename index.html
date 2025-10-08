@@ -21,7 +21,7 @@
             background: url('images/banner.png') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
-            gap: 20px; /* Добавлено для отступов между элементами */
+            gap: 20px; 
         }
         .bio-container {
             background-color: #ffdead71;
@@ -31,7 +31,7 @@
             width: 100%;
             display: flex;
             align-items: center;
-            margin-bottom: 0; /* Убрано, так как используем gap в body */
+            margin-bottom: 0; 
         }
         .visits {
             background-color: #ffdead71;
@@ -58,7 +58,7 @@
         h1 {
             text-align: center;
             margin-top: 0;
-            margin-left: -125px; /* Shift left slightly for better centering */
+            margin-left: -125px; 
         }
         p {
             margin: 10px 0;
@@ -113,7 +113,6 @@
         .button.steam::before { background-image: url('images/steam.svg'); }
         .button.github::before { background-image: url('images/github.svg'); }
 
-        /* Медиа-запрос для мобильных устройств */
         @media screen and (max-width: 600px) {
             body {
                 background-image: url('images/banner-mobile.png');
