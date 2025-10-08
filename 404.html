@@ -126,7 +126,6 @@
     
     <div class="demotivator">
         <div class="image-container">
-            <!-- ЗАМЕНИТЕ src НА ПУТЬ К ВАШЕМУ ИЗОБРАЖЕНИЮ -->
             <img src="images/screenshoot.png" alt="Демотиватор" class="demotivator-image">
         </div>
         
@@ -152,11 +151,9 @@
             
             if (seconds <= 0) {
                 clearInterval(countdown);
-                window.location.href = 'https://d1xtp.github.io/'; // Замените на ваш URL
+                window.location.href = 'https://d1xtp.github.io/';
             }
         }, 1000);
-
-        // Если пользователь нажал кнопку - отменяем авторедирект
         homeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             clearInterval(countdown);
