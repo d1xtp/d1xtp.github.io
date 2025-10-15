@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./gen/style.css" />
+    </head>
+    <body>
+        <div id="elm-app-is-loaded-here"></div>
+        <script src="./gen/gif_encoder.js"></script>
+        <!-- <script src="./gen/Ports.js"></script> -->
+        <script src="./gen/source.js"></script>
+        <script src="./gen/grid_to_gif.js"></script>
+        <script src="./gen/grid_to_image.js"></script>
+
+        <script type="module">
+            var app = Elm.Main.init({
+                node: document.getElementById('elm-app-is-loaded-here'),
+            });
+
+            import init, * as hexNumGen from './gen/pkg/hexnumgen_rs_wrapper.js';
+            async function setup() {
+                await init();
+            }
+            setup();
+
+            app.ports.sendNumber.subscribe(function (input) {
+                app.ports.recieveNumber.send(hexNumGen.generate_number(input));
+            });
+
+            function getElmentBoundingBoxById(id) {
+                try {
+                    let element = document.querySelector(id);
+                    let boundingBox = element.getBoundingClientRect();
+                    boundingBox = {
+                        element: id,
+                        left: Math.round(boundingBox.left),
+                        bottom: Math.round(boundingBox.bottom),
+                        right: Math.round(boundingBox.right),
+                        top: Math.round(boundingBox.top),
+                    };
+                    return boundingBox;
+                } catch (error) {
+                    return false;
+                }
+            }
+            function getElmentBoundingBoxes(ids) {
+                let result = [];
+                for (let i = 0; i < ids.length; i++) {
+                    const element = ids[i];
+                    result.push(getElmentBoundingBoxById(element));
+                }
+                return result;
+            }
+
+            function checkMouseOverDragHandle() {
+                let hoveredElements = document.querySelectorAll('.move_button:hover');
+                return hoveredElements.length > 0;
+            }
+
+            app.ports.requestBoundingBox.subscribe(function (input) {
+                app.ports.recieveBoundingBox.send(getElmentBoundingBoxById(input));
+            });
+
+            app.ports.requestBoundingBoxes.subscribe(function (input) {
+                app.ports.recieveBoundingBoxes.send(getElmentBoundingBoxes(input));
+            });
+
+            app.ports.requestCheckMouseOverDragHandle.subscribe(function (input) {
+                app.ports.recieveCheckMouseOverDragHandle.send(checkMouseOverDragHandle(input));
+            });
+            app.ports.requestGIF.subscribe(async function (a) {
+                app.ports.recieveGIF.send(await grid_to_gif());
+            });
+            app.ports.requestImage.subscribe(async function (a) {
+                app.ports.recieveImage.send(await grid_to_image());
+            });
+        </script>
+    </body>
+</html>
