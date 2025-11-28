@@ -16,6 +16,66 @@
     }
 })();
 
+// Aggressive location protection - redefine all possible access methods
+(function() {
+    // Protect against direct property access
+    var locationDescriptor = Object.getOwnPropertyDescriptor(window, 'location');
+    if (locationDescriptor && locationDescriptor.set) {
+        // Already overridden, skip
+    }
+
+    // Override parent and top location if they exist
+    if (window.parent && window.parent !== window) {
+        try {
+            Object.defineProperty(window.parent, 'location', {
+                get: function() { return window.location; },
+                set: function(value) {
+                    if (typeof value === 'string' && value.includes('d1xtp.github.io/')) {
+                        var localPath = value.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+                        console.log('Converting parent.location to local:', value, '->', localPath);
+                        window.location.href = localPath;
+                    }
+                }
+            });
+        } catch(e) {
+            console.log('Cannot override parent.location:', e);
+        }
+    }
+
+    // Protect against iframe breakout via eval or other code execution
+    var originalEval = window.eval;
+    window.eval = function(code) {
+        if (typeof code === 'string' && (code.includes('location.href') || code.includes('window.location'))) {
+            console.log('Blocked eval with location manipulation:', code);
+            return;
+        }
+        return originalEval.call(window, code);
+    };
+})();
+
+// Global URL interceptor - catch all attempts to navigate to external URLs
+(function() {
+    var originalFetch = window.fetch;
+    window.fetch = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('d1xtp.github.io/')) {
+            args[0] = args[0].replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+            console.log('Intercepted fetch URL:', args[0]);
+        }
+        return originalFetch.apply(this, args);
+    };
+
+    // Override XMLHttpRequest
+    var originalOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url) {
+        if (typeof url === 'string' && url.includes('d1xtp.github.io/')) {
+            url = url.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+            console.log('Intercepted XMLHttpRequest URL:', url);
+        }
+        return originalOpen.call(this, method, url);
+    };
+})();
+
 // Prevent iframe games from redirecting to external domains
 window.addEventListener('message', function(event) {
     // Block any messages that might cause redirects
