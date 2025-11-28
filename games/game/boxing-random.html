@@ -14126,32 +14126,6 @@
         document.getElementById("search").focus();
     });
 
-    // Prevent iframe games from redirecting to external domains
-    window.addEventListener('message', function(event) {
-        // Block any messages that might cause redirects
-        if (event.data && typeof event.data === 'string' && event.data.includes('d1xtp.github.io')) {
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
-        }
-    });
-
-    // Override location.href to prevent external redirects
-    var originalLocation = window.location;
-    Object.defineProperty(window, 'location', {
-        get: function() {
-            return originalLocation;
-        },
-        set: function(value) {
-            if (typeof value === 'string' && value.includes('d1xtp.github.io')) {
-                // Convert external links to local paths
-                var localPath = value.replace('https://d1xtp.github.io/', '../');
-                originalLocation.href = localPath;
-            } else {
-                originalLocation.href = value;
-            }
-        }
-    });
 </script>
 </body>
 

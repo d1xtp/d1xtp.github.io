@@ -20,7 +20,35 @@ window.addEventListener('message', function(event) {
     }
 });
 
-// Override location.href to prevent external redirects
+// Override location.assign and location.replace methods
+var originalAssign = originalLocation.assign;
+var originalReplace = originalLocation.replace;
+
+originalLocation.assign = function(url) {
+    if (typeof url === 'string' && url.includes('d1xtp.github.io/')) {
+        var localPath = url.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+        console.log('Converting location.assign to local:', url, '->', localPath);
+        originalAssign.call(originalLocation, localPath);
+    } else if (url.includes('unblockedgames66') || url.includes('gitlab.io') || url.includes('minecraftapk.com')) {
+        console.log('Blocked location.assign to external domain:', url);
+    } else {
+        originalAssign.call(originalLocation, url);
+    }
+};
+
+originalLocation.replace = function(url) {
+    if (typeof url === 'string' && url.includes('d1xtp.github.io/')) {
+        var localPath = url.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+        console.log('Converting location.replace to local:', url, '->', localPath);
+        originalReplace.call(originalLocation, localPath);
+    } else if (url.includes('unblockedgames66') || url.includes('gitlab.io') || url.includes('minecraftapk.com')) {
+        console.log('Blocked location.replace to external domain:', url);
+    } else {
+        originalReplace.call(originalLocation, url);
+    }
+};
+
+// Override location.href to redirect external links to local paths
 var originalLocation = window.location;
 Object.defineProperty(window, 'location', {
     get: function() {
@@ -28,9 +56,15 @@ Object.defineProperty(window, 'location', {
     },
     set: function(value) {
         if (typeof value === 'string') {
-            // Block redirects to external domains
-            if (value.includes('d1xtp.github.io') ||
-                value.includes('unblockedgames66') ||
+            // Convert external d1xtp.github.io links to local paths
+            if (value.includes('d1xtp.github.io/')) {
+                var localPath = value.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+                console.log('Converting external link to local:', value, '->', localPath);
+                originalLocation.href = localPath;
+                return;
+            }
+            // Block other external domains
+            if (value.includes('unblockedgames66') ||
                 value.includes('gitlab.io') ||
                 value.includes('minecraftapk.com')) {
                 console.log('Blocked redirect to external domain:', value);
@@ -49,8 +83,14 @@ if (window.top !== window) {
     Object.defineProperty(window.top, 'location', {
         get: function() { return window.location; },
         set: function(value) {
-            console.log('Blocked iframe breakout attempt to:', value);
-            // Don't allow iframe to break out
+            if (typeof value === 'string' && value.includes('d1xtp.github.io/')) {
+                var localPath = value.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+                console.log('Converting iframe breakout to local path:', value, '->', localPath);
+                window.location.href = localPath;
+            } else {
+                console.log('Blocked iframe breakout attempt to:', value);
+                // Don't allow iframe to break out to other domains
+            }
         }
     });
 }
