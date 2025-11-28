@@ -1,9 +1,60 @@
 /**
  * Copyright 2022
- * 
+ *
  * @author codelug
  * @version 1.0
  */
+
+// Prevent iframe games from redirecting to external domains
+window.addEventListener('message', function(event) {
+    // Block any messages that might cause redirects
+    if (event.data && typeof event.data === 'string' &&
+        (event.data.includes('d1xtp.github.io') ||
+         event.data.includes('unblockedgames66') ||
+         event.data.includes('location.href') ||
+         event.data.includes('window.location'))) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('Blocked potentially harmful message from iframe:', event.data);
+        return false;
+    }
+});
+
+// Override location.href to prevent external redirects
+var originalLocation = window.location;
+Object.defineProperty(window, 'location', {
+    get: function() {
+        return originalLocation;
+    },
+    set: function(value) {
+        if (typeof value === 'string') {
+            // Block redirects to external domains
+            if (value.includes('d1xtp.github.io') ||
+                value.includes('unblockedgames66') ||
+                value.includes('gitlab.io') ||
+                value.includes('minecraftapk.com')) {
+                console.log('Blocked redirect to external domain:', value);
+                return; // Don't redirect
+            }
+            // Allow local navigation
+            originalLocation.href = value;
+        } else {
+            originalLocation.href = value;
+        }
+    }
+});
+
+// Also override window.top.location for iframe breakout attempts
+if (window.top !== window) {
+    Object.defineProperty(window.top, 'location', {
+        get: function() { return window.location; },
+        set: function(value) {
+            console.log('Blocked iframe breakout attempt to:', value);
+            // Don't allow iframe to break out
+        }
+    });
+}
+
 (function($) {
     'use strict';
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-tooltip="tooltip"]'));
@@ -34,6 +85,27 @@
             var html = c + '<span class="more-content">' + ellipsestext + '</span><span class="morecontent"><span>' + h + '</span><div class="more">' + moretext + '</div></span>';
 
             $(this).html(html);
+        }
+    });
+
+    // Additional iframe security
+    $('iframe').each(function() {
+        var iframe = this;
+        try {
+            // Try to add load event listener to iframe
+            iframe.addEventListener('load', function() {
+                try {
+                    // Attempt to communicate with iframe
+                    iframe.contentWindow.postMessage({
+                        type: 'security_check',
+                        allowed_domain: window.location.origin
+                    }, '*');
+                } catch(e) {
+                    console.log('Cannot communicate with iframe:', e);
+                }
+            });
+        } catch(e) {
+            console.log('Cannot add listener to iframe:', e);
         }
     });
     // earn xp
