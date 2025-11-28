@@ -609,3 +609,50 @@ function readCookie(name) {
 function eraseCookie(name) {
     createCookie(name, "", -1);
 }
+
+// Additional iframe protection - MutationObserver
+if (window.MutationObserver) {
+    var iframeObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            // Check for iframe src changes
+            if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
+                var target = mutation.target;
+                if (target.tagName === 'IFRAME' && target.src && target.src.includes('d1xtp.github.io/')) {
+                    console.log('Blocked iframe src change to external domain:', target.src);
+                    // Reset iframe src to prevent external navigation
+                    target.src = 'about:blank';
+                }
+            }
+
+            // Check for new iframe elements
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.tagName === 'IFRAME') {
+                        console.log('New iframe detected, adding protection');
+                        // Add load listener to new iframes
+                        node.addEventListener('load', function() {
+                            try {
+                                // Attempt to restrict iframe communication
+                                if (node.contentWindow) {
+                                    node.contentWindow.postMessage({
+                                        type: 'restrict_navigation',
+                                        allowed_domain: window.location.origin
+                                    }, '*');
+                                }
+                            } catch(e) {
+                                console.log('Cannot communicate with iframe:', e);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    iframeObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['src']
+    });
+}
