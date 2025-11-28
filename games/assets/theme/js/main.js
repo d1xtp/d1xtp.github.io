@@ -5,6 +5,17 @@
  * @version 1.0
  */
 
+// Check current URL on page load and redirect if needed
+(function() {
+    var currentPath = window.location.pathname;
+    // If we're on a page that should be in /games/ subdirectory but isn't
+    if (currentPath.match(/^\/(category|game)\//) && !currentPath.match(/^\/games\//)) {
+        var correctPath = '/games' + currentPath;
+        console.log('Redirecting to correct path:', currentPath, '->', correctPath);
+        window.location.href = correctPath;
+    }
+})();
+
 // Prevent iframe games from redirecting to external domains
 window.addEventListener('message', function(event) {
     // Block any messages that might cause redirects
@@ -16,6 +27,52 @@ window.addEventListener('message', function(event) {
         event.preventDefault();
         event.stopPropagation();
         console.log('Blocked potentially harmful message from iframe:', event.data);
+        return false;
+    }
+});
+
+// Override document.location
+if (document.location) {
+    var originalDocLocation = document.location;
+    Object.defineProperty(document, 'location', {
+        get: function() { return originalDocLocation; },
+        set: function(value) {
+            if (typeof value === 'string' && value.includes('d1xtp.github.io/')) {
+                var localPath = value.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+                console.log('Converting document.location to local:', value, '->', localPath);
+                originalDocLocation.href = localPath;
+            } else {
+                originalDocLocation.href = value;
+            }
+        }
+    });
+}
+
+// Intercept all link clicks and form submissions
+document.addEventListener('click', function(e) {
+    var target = e.target;
+    while (target && target !== document) {
+        if (target.tagName === 'A' && target.href) {
+            if (target.href.includes('d1xtp.github.io/')) {
+                e.preventDefault();
+                var localPath = target.href.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+                console.log('Converting link click to local:', target.href, '->', localPath);
+                window.location.href = localPath;
+                return false;
+            }
+        }
+        target = target.parentNode;
+    }
+});
+
+document.addEventListener('submit', function(e) {
+    var form = e.target;
+    if (form.tagName === 'FORM' && form.action && form.action.includes('d1xtp.github.io/')) {
+        e.preventDefault();
+        var localPath = form.action.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+        console.log('Converting form action to local:', form.action, '->', localPath);
+        form.action = localPath;
+        form.submit();
         return false;
     }
 });
@@ -428,6 +485,39 @@ if (window.top !== window) {
         }
     }, '.btn-share');
 })(jQuery);
+
+// Override window.open to prevent popup redirects
+var originalWindowOpen = window.open;
+window.open = function(url, target, features) {
+    if (typeof url === 'string' && url.includes('d1xtp.github.io/')) {
+        var localPath = url.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+        console.log('Converting window.open to local:', url, '->', localPath);
+        return originalWindowOpen.call(window, localPath, target, features);
+    }
+    return originalWindowOpen.call(window, url, target, features);
+};
+
+// Override history methods that might cause navigation
+var originalPushState = history.pushState;
+var originalReplaceState = history.replaceState;
+
+history.pushState = function(state, title, url) {
+    if (typeof url === 'string' && url.includes('d1xtp.github.io/')) {
+        var localPath = url.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+        console.log('Converting history.pushState to local:', url, '->', localPath);
+        return originalPushState.call(history, state, title, localPath);
+    }
+    return originalPushState.call(history, state, title, url);
+};
+
+history.replaceState = function(state, title, url) {
+    if (typeof url === 'string' && url.includes('d1xtp.github.io/')) {
+        var localPath = url.replace(/https?:\/\/d1xtp\.github\.io\//, '../');
+        console.log('Converting history.replaceState to local:', url, '->', localPath);
+        return originalReplaceState.call(history, state, title, localPath);
+    }
+    return originalReplaceState.call(history, state, title, url);
+};
 
 
 function createCookie(name, value, days) {
