@@ -1,165 +1,125 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset='utf-8'>
-    <title>Демотиватор</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена | ᴅɪxᴛᴘ</title>
+    <link rel="icon" type="image/jpeg" href="images/avatar.jpg">
     <style>
-        * {
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
-
         body {
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             font-family: Arial, sans-serif;
             padding: 20px;
+            display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            background: url('images/banner.png') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            gap: 20px;
         }
-
-        .error-title {
-            color: #fff;
-            font-size: 48px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
-            letter-spacing: 3px;
-        }
-
-        .demotivator {
-            background-color: #000;
-            border: 2px solid #fff;
-            padding: 20px;
-            text-align: center;
-            max-width: 600px;
+        .error-container {
+            background-color: #ffdead71;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
             width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
-
-        .image-container {
-            border: 1px solid #fff;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #000;
-        }
-
-        .demotivator-image {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            border: 1px solid #666;
-        }
-
-        .title {
-            color: #fff;
-            font-size: 36px;
+        .error-code {
+            font-size: 72px;
             font-weight: bold;
-            text-transform: uppercase;
+            color: #333;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
-
-        .subtitle {
-            color: #fff;
-            font-size: 24px;
+        .error-title {
+            font-size: 28px;
             font-weight: bold;
-            text-transform: uppercase;
+            color: #333;
             margin-bottom: 15px;
         }
-
-        .description {
-            color: #fff;
+        .error-message {
+            color: #555;
             font-size: 16px;
-            line-height: 1.4;
-            max-width: 500px;
-            margin: 0 auto 20px;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
-
-        .line {
-            color: #fff;
-            font-size: 18px;
-            margin: 5px 0;
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
-
-        .redirect-info {
-            color: #fff;
-            font-size: 16px;
-            margin: 15px 0;
-        }
-
-        .home-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #ff0066;
+        .button {
+            background-color: rgba(51, 51, 51, 0.8);
             color: white;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            font-weight: bold;
             border: 2px solid transparent;
-            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: rgba(100, 100, 100, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .button.primary {
+            background-color: #007acc;
+        }
+        .button.primary:hover {
+            background-color: #005999;
         }
 
-        .home-btn:hover {
-            background: transparent;
-            border-color: #ff0066;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255,0,102,0.3);
-        }
-
-        @media (max-width: 600px) {
-            .error-title { font-size: 36px; }
-            .title { font-size: 28px; }
-            .subtitle { font-size: 20px; }
-            .description { font-size: 14px; }
+        @media screen and (max-width: 600px) {
+            body {
+                background-image: url('images/banner-mobile.png');
+                background-size: 100% 100%;
+                background-attachment: scroll;
+                padding: 15px;
+            }
+            .error-container {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .error-code {
+                font-size: 56px;
+            }
+            .error-title {
+                font-size: 24px;
+            }
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .button {
+                width: 200px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="error-title">404 NOT FOUND</div>
-    
-    <div class="demotivator">
-        <div class="image-container">
-            <img src="images/screenshoot.png" alt="Демотиватор" class="demotivator-image">
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Страница не найдена</h1>
+        <p class="error-message">
+            Извините, но запрашиваемая страница не существует или была перемещена.
+            Возможно, вы ввели неправильный адрес или ссылка устарела.
+        </p>
+
+        <div class="buttons">
+            <a href="/" class="button primary">На главную</a>
+            <button onclick="history.back()" class="button">Назад</button>
         </div>
-        
-        <div class="title">ХУДОЖЕСТВЕННЫЙ ФИЛЬМ</div>        
-        <div class="subtitle">"СПИЗДИЛИ"</div>
-        <a href="https://d1xtp.github.io/" class="home-btn" id="homeBtn">Вернуться на главную сейчас</a>
-        <div class="redirect-info" id="countdown">
-            <span id="timer">10</span> секунд...
-        </div>
-        
-        
     </div>
 
-    <script>
-        let seconds = 10;
-        const timerElement = document.getElementById('timer');
-        const countdownElement = document.getElementById('countdown');
-        const homeBtn = document.getElementById('homeBtn');
-
-        const countdown = setInterval(() => {
-            seconds--;
-            timerElement.textContent = seconds;
-            
-            if (seconds <= 0) {
-                clearInterval(countdown);
-                window.location.href = 'https://d1xtp.github.io/';
-            }
-        }, 1000);
-        homeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            clearInterval(countdown);
-            countdownElement.style.display = 'none';
-            window.location.href = homeBtn.href;
-        });
-    </script>
 </body>
 </html>
