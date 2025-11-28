@@ -41,7 +41,7 @@
         setTimeout(function() {
             var game_id = $('input[name="game_id"]').val();
             $.ajax({
-                url: Base + '/ajax/earnxp',
+                url: Base + 'ajax/earnxp.json',
                 type: 'post',
                 data: {
                     'game_id': game_id
@@ -169,7 +169,7 @@
     $(document).on('click', '.reaction', function(e) {
         var id = $(this).attr('data-id');
         if (!_Auth) {
-            window.location.href = Base + '/login';
+            alert('Please login to react to content');
             return false;
         }
         e.preventDefault();
@@ -227,7 +227,7 @@
         }
 
         $.ajax({
-            url: Base + '/ajax/reaction',
+            url: Base + 'ajax/reaction.json',
             type: 'post',
             data: {
                 'type': type,
