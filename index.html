@@ -329,16 +329,15 @@
         <img class="avatar" src="images/avatar.jpg" alt="Аватар D1XTP" loading="lazy">
         <div class="bio-text">
             <h1>ᴅɪxᴛᴘ | BIO</h1>
-            <p>Nickname: D1XTP</p>
-            <p>Gender: Male | He/His</p>
-            <p>Name: ???</p>
-            <p>Age: 1?</p>
-            <p>Favorite games:</p>
+            <p data-i18n="nick">Nick: D1XTP</p>
+            <p data-i18n="gender">Gender: Male | He/His</p>
+            <p data-i18n="age">Age: 14</p>
+            <p data-i18n="games">Favorite games:</p>
             <ul class="game-list">
-                <li>Minecraft — nickname D1XTP</li>
-                <li>DDraceNetwork — nickname катарак</li>
+                <li data-i18n="game1">Minecraft — nickname D1XTP</li>
+                <li data-i18n="game2">DDraceNetwork — nickname катарак</li>
             </ul>
-            <p>TimeZone: MSK +3 UTC</p>
+            <p data-i18n="timezone">TimeZone: MSK +3 UTC</p>
             <nav class="buttons" aria-label="Социальные сети">
                 <a href="https://discord.com/users/767309831748452373" 
                    class="button discord" 
@@ -365,7 +364,7 @@
     </main>
     
     <section class="visits" aria-label="Статистика посещений">
-        <p>Вот сколько раз посещали сайт</p>
+        <p data-i18n="visits">Вот сколько раз посещали сайт</p>
         <img src="https://count.getloli.com/@:d1xtp.github.io?name=%3Ad1xtp.github.io&theme=original-new&padding=7&offset=0&align=top&scale=0.6&pixelated=1&darkmode=auto" 
              alt="Счетчик посещений"
              loading="lazy"
@@ -497,6 +496,101 @@
             document.addEventListener('DOMContentLoaded', initSeasonEffects);
         } else {
             initSeasonEffects();
+        }
+        
+        // Локализация для пользователей из СНГ
+        const translations = {
+            en: {
+                nick: 'Nick: D1XTP',
+                gender: 'Gender: Male | He/His',
+                age: 'Age: 14',
+                games: 'Favorite games:',
+                game1: 'Minecraft — nickname D1XTP',
+                game2: 'DDraceNetwork — nickname катарак',
+                timezone: 'TimeZone: MSK +3 UTC',
+                visits: 'Here\'s how many times the site has been visited'
+            },
+            ru: {
+                nick: 'Ник: D1XTP',
+                gender: 'Пол: Мужской | Он/Его',
+                age: 'Возраст: 14',
+                games: 'Любимые игры:',
+                game1: 'Minecraft — ник D1XTP',
+                game2: 'DDraceNetwork — ник катарак',
+                timezone: 'Часовой пояс: МСК +3 UTC',
+                visits: 'Вот сколько раз посещали сайт'
+            },
+            uk: {
+                nick: 'Нік: D1XTP',
+                gender: 'Стать: Чоловіча | Він/Його',
+                age: 'Вік: 14',
+                games: 'Улюблені ігри:',
+                game1: 'Minecraft — нік D1XTP',
+                game2: 'DDraceNetwork — нік катарак',
+                timezone: 'Часовий пояс: МСК +3 UTC',
+                visits: 'Ось скільки разів відвідували сайт'
+            },
+            be: {
+                nick: 'Нік: D1XTP',
+                gender: 'Пол: Мужчынскі | Ён/Яго',
+                age: 'Узрост: 14',
+                games: 'Любімыя гульні:',
+                game1: 'Minecraft — нік D1XTP',
+                game2: 'DDraceNetwork — нік катарак',
+                timezone: 'Часавы пояс: МСК +3 UTC',
+                visits: 'Вось колькі разоў наведвалі сайт'
+            },
+            kk: {
+                nick: 'Ник: D1XTP',
+                gender: 'Жыныс: Ер | Ол/Оның',
+                age: 'Жасы: 14',
+                games: 'Сүйікті ойындар:',
+                game1: 'Minecraft — ник D1XTP',
+                game2: 'DDraceNetwork — ник катарак',
+                timezone: 'Уақыт белдеуі: МСК +3 UTC',
+                visits: 'Міне сайтты қанша рет барып шыққаны'
+            }
+        };
+        
+        // Определение языка браузера
+        function detectLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const langCode = browserLang.split('-')[0].toLowerCase();
+            
+            // Языки стран СНГ (кириллица)
+            const cngLanguages = ['ru', 'uk', 'be', 'kk', 'ky', 'uz', 'az', 'hy', 'ka', 'tg', 'mn', 'tt'];
+            
+            if (cngLanguages.includes(langCode)) {
+                // Если язык поддерживается, используем его, иначе русский по умолчанию
+                return translations[langCode] ? langCode : 'ru';
+            }
+            
+            // Для остальных языков используем английский
+            return 'en';
+        }
+        
+        // Применение локализации
+        function applyLocalization() {
+            const lang = detectLanguage();
+            const langTranslations = translations[lang] || translations['en'];
+            
+            // Применяем переводы ко всем элементам с data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (langTranslations[key]) {
+                    element.textContent = langTranslations[key];
+                }
+            });
+            
+            // Обновляем атрибут lang у html элемента
+            document.documentElement.lang = lang;
+        }
+        
+        // Запускаем локализацию при загрузке страницы
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyLocalization);
+        } else {
+            applyLocalization();
         }
     </script>
 </body>
