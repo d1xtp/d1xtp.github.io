@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Страница не найдена | ᴅɪxᴛᴘ</title>
+    <meta name="description" content="Страница не найдена - 404 ошибка на сайте d1xtp.github.io">
+    <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/jpeg" href="images/avatar.jpg">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         html, body {
             height: 100%;
             margin: 0;
@@ -66,6 +71,11 @@
             transition: all 0.3s ease;
             font-weight: bold;
             border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .button:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
         }
         .button:hover {
             background-color: rgba(100, 100, 100, 0.9);
@@ -107,19 +117,19 @@
     </style>
 </head>
 <body>
-    <div class="error-container">
-        <div class="error-code">404</div>
+    <main class="error-container">
+        <div class="error-code" aria-label="Ошибка 404">404</div>
         <h1 class="error-title">Страница не найдена</h1>
         <p class="error-message">
             Извините, но запрашиваемая страница не существует или была перемещена.
             Возможно, вы ввели неправильный адрес или ссылка устарела.
         </p>
 
-        <div class="buttons">
+        <nav class="buttons" aria-label="Навигация">
             <a href="/" class="button primary">На главную</a>
-            <button onclick="history.back()" class="button">Назад</button>
-        </div>
-    </div>
+            <button onclick="history.back()" class="button" type="button">Назад</button>
+        </nav>
+    </main>
 
 </body>
 </html>
