@@ -27,7 +27,6 @@
         html {
             scroll-behavior: smooth;
         }
-    <style>
         html, body {
             height: 100%;
             margin: 0;
@@ -43,7 +42,138 @@
             background: url('images/banner.png') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
-            gap: 20px; 
+            gap: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Контейнер для сезонных эффектов */
+        .season-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        /* Снежинки (зима) */
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: snowfall linear infinite;
+            opacity: 0.8;
+        }
+        
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Листья (осень) */
+        .leaf {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #d2691e, #8b4513, #cd853f);
+            border-radius: 0 100% 0 100%;
+            animation: leaf-fall linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes leaf-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Лепестки (весна) */
+        .petal {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
+            border-radius: 50% 0 50% 0;
+            animation: petal-fall linear infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes petal-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Солнечные лучи (лето) */
+        .sunray {
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(255, 255, 0, 0.8), rgba(255, 255, 0, 0));
+            animation: sunray-float linear infinite;
+            opacity: 0.4;
+        }
+        
+        @keyframes sunray-float {
+            0% {
+                transform: translateY(-100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+        
+        /* Убедимся, что контент поверх эффектов */
+        .bio-container, .visits {
+            position: relative;
+            z-index: 2;
         }
         .bio-container {
             background-color: #ffdead71;
@@ -226,5 +356,132 @@
              onerror="this.style.display='none'" />
         <noscript>Счетчик недоступен</noscript>
     </section>
+    
+    <div class="season-effects" id="seasonEffects"></div>
+    
+    <script>
+        // Определение сезона на основе даты (для северного полушария)
+        function getSeason() {
+            const now = new Date();
+            const month = now.getMonth() + 1; // 1-12
+            const day = now.getDate();
+            
+            // Зима: декабрь (12), январь (1), февраль (2)
+            // Весна: март (3), апрель (4), май (5)
+            // Лето: июнь (6), июль (7), август (8)
+            // Осень: сентябрь (9), октябрь (10), ноябрь (11)
+            
+            if (month === 12 || month <= 2) {
+                return 'winter';
+            } else if (month >= 3 && month <= 5) {
+                return 'spring';
+            } else if (month >= 6 && month <= 8) {
+                return 'summer';
+            } else {
+                return 'autumn';
+            }
+        }
+        
+        // Создание снежинок
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            snowflake.style.animationDelay = Math.random() * 2 + 's';
+            snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            return snowflake;
+        }
+        
+        // Создание листьев
+        function createLeaf() {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            const colors = ['#d2691e', '#8b4513', '#cd853f', '#a0522d', '#daa520'];
+            leaf.style.background = `linear-gradient(135deg, ${colors[Math.floor(Math.random() * colors.length)]}, ${colors[Math.floor(Math.random() * colors.length)]})`;
+            leaf.style.left = Math.random() * 100 + '%';
+            leaf.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            leaf.style.animationDelay = Math.random() * 2 + 's';
+            leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+            return leaf;
+        }
+        
+        // Создание лепестков
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const colors = ['#ffb6c1', '#ffc0cb', '#ff69b4', '#ff1493', '#ffb3de'];
+            petal.style.background = `linear-gradient(135deg, ${colors[Math.floor(Math.random() * colors.length)]}, ${colors[Math.floor(Math.random() * colors.length)]})`;
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            petal.style.animationDelay = Math.random() * 2 + 's';
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            return petal;
+        }
+        
+        // Создание солнечных лучей
+        function createSunray() {
+            const sunray = document.createElement('div');
+            sunray.className = 'sunray';
+            sunray.style.left = Math.random() * 100 + '%';
+            sunray.style.animationDuration = (Math.random() * 5 + 4) + 's';
+            sunray.style.animationDelay = Math.random() * 2 + 's';
+            return sunray;
+        }
+        
+        // Инициализация сезонных эффектов
+        function initSeasonEffects() {
+            const season = getSeason();
+            const effectsContainer = document.getElementById('seasonEffects');
+            const particleCount = 50; // Количество частиц
+            
+            let createParticle;
+            
+            switch(season) {
+                case 'winter':
+                    createParticle = createSnowflake;
+                    break;
+                case 'autumn':
+                    createParticle = createLeaf;
+                    break;
+                case 'spring':
+                    createParticle = createPetal;
+                    break;
+                case 'summer':
+                    createParticle = createSunray;
+                    break;
+            }
+            
+            // Создаем частицы
+            for (let i = 0; i < particleCount; i++) {
+                const particle = createParticle();
+                effectsContainer.appendChild(particle);
+            }
+            
+            // Удаляем частицы после анимации и создаем новые для непрерывного эффекта
+            setInterval(() => {
+                const particles = effectsContainer.querySelectorAll('.snowflake, .leaf, .petal, .sunray');
+                if (particles.length < particleCount) {
+                    const newParticle = createParticle();
+                    effectsContainer.appendChild(newParticle);
+                }
+                // Удаляем частицы, которые вышли за пределы экрана
+                particles.forEach(particle => {
+                    const rect = particle.getBoundingClientRect();
+                    if (rect.top > window.innerHeight) {
+                        particle.remove();
+                    }
+                });
+            }, 1000);
+        }
+        
+        // Запускаем эффекты после загрузки страницы
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSeasonEffects);
+        } else {
+            initSeasonEffects();
+        }
+    </script>
 </body>
 </html>
