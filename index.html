@@ -861,12 +861,16 @@
             e.preventDefault();
         }
 
-        // Сенсорное управление
+        // Сенсорное управление (кнопки + свайпы)
         function setupMobileControls() {
             const upBtn = document.getElementById('controlUp');
             const downBtn = document.getElementById('controlDown');
             const leftBtn = document.getElementById('controlLeft');
             const rightBtn = document.getElementById('controlRight');
+            const canvasEl = document.getElementById('gameCanvas');
+            
+            let touchStartX = 0;
+            let touchStartY = 0;
             
             if (upBtn) {
                 upBtn.addEventListener('touchstart', (e) => {
@@ -922,6 +926,51 @@
                         direction = {x: gridSize, y: 0};
                     }
                 });
+            }
+            
+            // Свайпы по канвасу для управления на телефонах
+            if (canvasEl) {
+                canvasEl.addEventListener('touchstart', (e) => {
+                    if (!gameRunning) return;
+                    const touch = e.touches[0];
+                    touchStartX = touch.clientX;
+                    touchStartY = touch.clientY;
+                }, { passive: true });
+                
+                canvasEl.addEventListener('touchend', (e) => {
+                    if (!gameRunning) return;
+                    const touch = e.changedTouches[0];
+                    const dx = touch.clientX - touchStartX;
+                    const dy = touch.clientY - touchStartY;
+                    
+                    // Игнорируем слишком маленькие движения
+                    const threshold = 20;
+                    if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) {
+                        return;
+                    }
+                    
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        // Горизонтальный свайп
+                        if (dx > 0 && direction.x === 0) {
+                            // Свайп вправо
+                            direction = {x: gridSize, y: 0};
+                        } else if (dx < 0 && direction.x === 0) {
+                            // Свайп влево
+                            direction = {x: -gridSize, y: 0};
+                        }
+                    } else {
+                        // Вертикальный свайп
+                        if (dy > 0 && direction.y === 0) {
+                            // Свайп вниз
+                            direction = {x: 0, y: gridSize};
+                        } else if (dy < 0 && direction.y === 0) {
+                            // Свайп вверх
+                            direction = {x: 0, y: -gridSize};
+                        }
+                    }
+                    
+                    e.preventDefault();
+                }, { passive: false });
             }
         }
 
