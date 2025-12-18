@@ -167,6 +167,26 @@
             }
         }
         
+        /* Анимации при входе (совпадают с index.html) */
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
         .error-container {
             position: relative;
             z-index: 2;
@@ -177,6 +197,9 @@
             width: 100%;
             text-align: center;
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fade-in-up 0.7s ease-out forwards;
         }
         .error-code {
             font-size: 72px;

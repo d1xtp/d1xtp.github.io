@@ -196,7 +196,10 @@
             width: 100%;
             display: flex;
             align-items: center;
-            margin-bottom: 0; 
+            margin-bottom: 0;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fade-in-up 0.7s ease-out forwards;
         }
         .visits {
             background-color: rgba(153, 136, 128, 0.9);
@@ -208,6 +211,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fade-in-up 0.7s ease-out forwards;
+            animation-delay: 0.15s;
         }
         .avatar {
             width: 100px;
@@ -217,6 +224,10 @@
             border-radius: 10px;
             margin-right: 20px;
             flex-shrink: 0;
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            animation: fade-in-scale 0.6s ease-out forwards;
+            animation-delay: 0.1s;
         }
         .bio-text {
             flex-grow: 1;
@@ -242,6 +253,10 @@
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fade-in-up 0.6s ease-out forwards;
+            animation-delay: 0.25s;
         }
         .button {
             background-color: rgba(51, 51, 51, 0.411);
@@ -285,6 +300,37 @@
         .button.steam::before { background-image: url('images/steam.svg'); }
         .button.github::before { background-image: url('images/github.svg'); }
 
+        /* Анимации при входе */
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fade-in-scale {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
         @media screen and (max-width: 600px) {
             body {
                 background-image: url('images/banner-mobile.png');
