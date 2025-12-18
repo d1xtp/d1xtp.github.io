@@ -14,6 +14,7 @@
         html, body {
             height: 100%;
             margin: 0;
+            overflow: hidden;
         }
         body {
             font-family: Arial, sans-serif;
@@ -477,13 +478,17 @@
         }
         
         // Запускаем эффекты и локализацию после загрузки страницы
+        function scheduleSeasonEffects404() {
+            setTimeout(initSeasonEffects, 1200);
+        }
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                initSeasonEffects();
+                scheduleSeasonEffects404();
                 applyLocalization();
             });
         } else {
-            initSeasonEffects();
+            scheduleSeasonEffects404();
             applyLocalization();
         }
     </script>

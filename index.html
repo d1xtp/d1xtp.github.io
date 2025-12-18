@@ -30,6 +30,7 @@
         html, body {
             height: 100%;
             margin: 0;
+            overflow: hidden;
         }
         body {
             font-family: Arial, sans-serif;
@@ -702,11 +703,16 @@
             }, 1000);
         }
         
-        // Запускаем эффекты после загрузки страницы
+        // Запускаем эффекты после загрузки страницы с небольшой задержкой,
+        // чтобы сначала появился основной контент
+        function scheduleSeasonEffects() {
+            setTimeout(initSeasonEffects, 1200);
+        }
+        
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initSeasonEffects);
+            document.addEventListener('DOMContentLoaded', scheduleSeasonEffects);
         } else {
-            initSeasonEffects();
+            scheduleSeasonEffects();
         }
         
         // Локализация для пользователей из СНГ
