@@ -273,6 +273,27 @@
             height: 35px;
             position: relative;
         }
+        .button:hover::after,
+        .button:focus-visible::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 1;
+        }
+        .button::after {
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
         .button:hover {
             background-color: rgba(100, 100, 100, 0.6);
             transform: translateY(-2px);
@@ -551,26 +572,34 @@
             </ul>
             <p data-i18n="timezone">TimeZone: MSK +3 UTC</p>
             <nav class="buttons" aria-label="Социальные сети">
-                <a href="https://discord.com/users/767309831748452373" 
-                   class="button discord" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   aria-label="Discord профиль"></a>
+                <button 
+                    class="button discord" 
+                    type="button"
+                    id="discordButton"
+                    aria-label="Discord профиль"
+                    data-tooltip="Discord: d1xtp">
+                </button>
                 <a href="https://t.me/d1xtp" 
                    class="button telegram" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   aria-label="Telegram профиль"></a>
+                   aria-label="Telegram профиль"
+                   data-tooltip="Открыть Telegram">
+                </a>
                 <a href="https://steamcommunity.com/id/D1XTP" 
                    class="button steam" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   aria-label="Steam профиль"></a>
+                   aria-label="Steam профиль"
+                   data-tooltip="Открыть Steam профиль">
+                </a>
                 <a href="https://github.com/d1xtp" 
                    class="button github" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   aria-label="GitHub профиль"></a>
+                   aria-label="GitHub профиль"
+                   data-tooltip="Открыть GitHub профиль">
+                </a>
             </nav>
         </div>
     </main>
@@ -1137,6 +1166,52 @@
             document.removeEventListener('keydown', handleKeyPress);
         }
 
+        // Модальное окно с Discord ником
+        (function initDiscordModal() {
+            const discordBtn = document.getElementById('discordButton');
+            const discordModal = document.getElementById('discordModal');
+            const copyBtn = document.getElementById('copyDiscord');
+            const closeBtn = document.getElementById('closeDiscord');
+            const DISCORD_NICK = 'd1xtp';
+
+            if (!discordBtn || !discordModal) return;
+
+            function openDiscordModal() {
+                discordModal.classList.add('active');
+            }
+
+            function closeDiscordModal() {
+                discordModal.classList.remove('active');
+            }
+
+            discordBtn.addEventListener('click', openDiscordModal);
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeDiscordModal);
+            }
+
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(DISCORD_NICK);
+                        copyBtn.textContent = 'Скопировано!';
+                        setTimeout(() => {
+                            copyBtn.textContent = 'Скопировать ник';
+                        }, 1500);
+                    } catch (e) {
+                        copyBtn.textContent = DISCORD_NICK;
+                    }
+                });
+            }
+
+            // Закрытие по клику вне модального окна
+            discordModal.addEventListener('click', (e) => {
+                if (e.target === discordModal) {
+                    closeDiscordModal();
+                }
+            });
+        })();
+
         // Инициализация мобильных контролов и кнопок при загрузке
         function initGameButtons() {
             setupMobileControls();
@@ -1159,6 +1234,19 @@
             initGameButtons();
         }
     </script>
+    
+    <!-- Модальное окно с ником Discord -->
+    <div class="game-overlay" id="discordModal" style="z-index: 900;">
+        <div class="game-container" style="max-width: 320px;">
+            <h2 class="game-title">Discord</h2>
+            <div class="game-info">Мой ник в Discord:</div>
+            <div class="game-info" style="font-size: 18px; margin-bottom: 10px;">d1xtp</div>
+            <div class="game-controls">
+                <button class="game-btn" id="copyDiscord">Скопировать ник</button>
+                <button class="game-btn" id="closeDiscord">Закрыть</button>
+            </div>
+        </div>
+    </div>
     
     <!-- Игра Змейка (пасхалка) -->
     <div class="game-overlay" id="gameOverlay">
