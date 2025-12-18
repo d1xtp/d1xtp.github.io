@@ -1167,7 +1167,7 @@
         }
 
         // Модальное окно с Discord ником
-        (function initDiscordModal() {
+        function initDiscordModal() {
             const discordBtn = document.getElementById('discordButton');
             const discordModal = document.getElementById('discordModal');
             const copyBtn = document.getElementById('copyDiscord');
@@ -1210,7 +1210,7 @@
                     closeDiscordModal();
                 }
             });
-        })();
+        }
 
         // Инициализация мобильных контролов и кнопок при загрузке
         function initGameButtons() {
@@ -1226,6 +1226,8 @@
             if (closeBtn) {
                 closeBtn.addEventListener('click', closeGame);
             }
+            
+            initDiscordModal();
         }
         
         if (document.readyState === 'loading') {
