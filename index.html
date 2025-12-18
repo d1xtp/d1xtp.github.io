@@ -410,6 +410,25 @@
             display: flex;
         }
         
+        /* Более мягкое затемнение для простых модалок (Discord) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 900;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
         .game-container {
             background: rgba(170, 130, 95, 0.95);
             padding: 20px;
@@ -1237,7 +1256,7 @@
     </script>
     
     <!-- Модальное окно с ником Discord -->
-    <div class="game-overlay" id="discordModal" style="z-index: 900;">
+    <div class="modal-overlay" id="discordModal">
         <div class="game-container" style="max-width: 320px;">
             <h2 class="game-title">Discord</h2>
             <div class="game-info">Мой ник в Discord:</div>
